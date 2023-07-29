@@ -1,0 +1,38 @@
+/*
+삼분탐색으로 푼 문제
+(29line) long long p=(2*l+h)/3,q=(l+2*h)/3; 여기서 l,h를 각각이 10^6이하라 int 로 해놨었는데 더하다가 오버플로가 생겼다
+저걸 못찾아서 한참 고생한 문제
+*/
+#include <stdio.h>
+
+int n;
+long long x[100000];
+
+long long abs(long long a){
+	return a>0?a:-a;
+} 
+long long min(long long a, long long b){
+	return a>b?b:a;
+}
+
+long long f(long long t){
+	long long ans=0;
+	for(long long i=0; i<n; i++)ans+=abs(x[i]-i*t);
+	return ans;
+}
+
+int main(){
+	scanf("%d",&n);
+	for(int i=0; i<n; i++) scanf("%lld",&x[i]);
+	long long l=0, h=x[n-1];
+	while(h-l>=3){
+		long long p=(2*l+h)/3,q=(l+2*h)/3;
+		if(f(p)<=f(q)) h=q;
+		else l=p;
+	}
+	long long ans=1e18;
+	for(long long i=l; i<=h; i++){
+		ans = min(ans,f(i));
+	}
+	printf("%lld",ans);
+}
